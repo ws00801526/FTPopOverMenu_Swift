@@ -393,6 +393,7 @@ private class FTPopOverMenuView: UIControl {
             backgroundLayer.shadowColor = FTConfiguration.shared.shadowColor.cgColor
             backgroundLayer.shadowOffset =  FTConfiguration.shared.shadowOffset
             backgroundLayer.shadowRadius = FTConfiguration.shared.shadowRadius
+            backgroundLayer.shadowOpacity = 1.0
             backgroundLayer.masksToBounds = false
             backgroundLayer.shouldRasterize = true
             backgroundLayer.rasterizationScale = UIScreen.main.scale
