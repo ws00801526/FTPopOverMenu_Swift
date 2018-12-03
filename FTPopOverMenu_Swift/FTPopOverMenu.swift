@@ -79,8 +79,8 @@ public class FTPopOverMenu : NSObject {
     
     fileprivate lazy var backgroundView : UIView = {
         let view = UIView(frame: UIScreen.main.bounds)
-        if self.configuration.globalShadow {
-            view.backgroundColor = UIColor.black.withAlphaComponent(self.configuration.shadowAlpha)
+        if self.configuration.showBackground {
+            view.backgroundColor = UIColor.black.withAlphaComponent(self.configuration.backgroundAlpha)
         }
         view.addGestureRecognizer(self.tapGesture)
         return view
@@ -390,14 +390,12 @@ private class FTPopOverMenuView: UIControl {
         backgroundLayer.strokeColor = configuration.borderColor.cgColor
         backgroundLayer.lineWidth = configuration.borderWidth
         if configuration.localShadow {
-            backgroundLayer.shadowColor = UIColor.black.cgColor
-            backgroundLayer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            backgroundLayer.shadowRadius = 24.0
-            backgroundLayer.shadowOpacity = 0.9
+            backgroundLayer.shadowColor = FTConfiguration.shared.shadowColor.cgColor
+            backgroundLayer.shadowOffset =  FTConfiguration.shared.shadowOffset
+            backgroundLayer.shadowRadius = FTConfiguration.shared.shadowRadius
             backgroundLayer.masksToBounds = false
             backgroundLayer.shouldRasterize = true
             backgroundLayer.rasterizationScale = UIScreen.main.scale
-            
         }
         self.layer.insertSublayer(backgroundLayer, at: 0)
         //        backgroundLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(rotationAngle: CGFloat(M_PI))) //CATransform3DMakeRotation(CGFloat(M_PI), 1, 1, 0)
