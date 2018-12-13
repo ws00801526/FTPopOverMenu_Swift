@@ -56,6 +56,20 @@ fileprivate enum FTPopOverMenuArrowDirection {
     case down
 }
 
+fileprivate class FTBackgroundView: UIView {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let point = touches.first?.location(in: self) ?? .zero
+        let inside = self.subviews.filter { $0.frame.contains(point) }.count > 0
+        if inside {
+            super.touchesBegan(touches, with: event)
+        } else {
+            FTPopOverMenu.dismiss()
+        }
+    }
+}
+
 public class FTPopOverMenu : NSObject {
     
     var sender : UIView?
@@ -77,8 +91,8 @@ public class FTPopOverMenu : NSObject {
         return FTConfiguration.shared
     }()
     
-    fileprivate lazy var backgroundView : UIView = {
-        let view = UIView(frame: UIScreen.main.bounds)
+    fileprivate lazy var backgroundView : FTBackgroundView = {
+        let view = FTBackgroundView(frame: UIScreen.main.bounds)
         if self.configuration.showBackground {
             view.backgroundColor = UIColor.black.withAlphaComponent(self.configuration.backgroundAlpha)
         }
@@ -328,16 +342,6 @@ private class FTPopOverMenuView: UIControl {
     fileprivate var arrowDirection : FTPopOverMenuArrowDirection = .up
     fileprivate var done : ((NSInteger) -> Void)!
     fileprivate var cellConfigurationArray : [FTCellConfiguration]?
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        let inRect = touches.first?.location(in: self) ?? .zero
-        if self.menuTableView.frame.contains(inRect) {
-            super.touchesBegan(touches, with: event)
-        } else {
-            self.done(-1)
-        }
-    }
     
     fileprivate lazy var configuration : FTConfiguration = {
         return FTConfiguration.shared
