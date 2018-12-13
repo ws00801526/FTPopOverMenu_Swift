@@ -329,6 +329,16 @@ private class FTPopOverMenuView: UIControl {
     fileprivate var done : ((NSInteger) -> Void)!
     fileprivate var cellConfigurationArray : [FTCellConfiguration]?
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let inRect = touches.first?.location(in: self) ?? .zero
+        if self.menuTableView.frame.contains(inRect) {
+            super.touchesBegan(touches, with: event)
+        } else {
+            self.done(-1)
+        }
+    }
+    
     fileprivate lazy var configuration : FTConfiguration = {
         return FTConfiguration.shared
     }()
